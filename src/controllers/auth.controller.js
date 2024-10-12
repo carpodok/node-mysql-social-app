@@ -1,8 +1,6 @@
 const dbConnection = require("../../config/db");
 const bcrypt = require("bcryptjs");
 
-const login = async (req, res) => {};
-
 const checkIfUserExists = (email) => {
   const query = `SELECT * FROM users WHERE email = ?`;
   return new Promise((resolve, reject) => {
@@ -53,6 +51,40 @@ const register = async (req, res) => {
     return res.status(500).json({
       message: "Failed to register user",
       error: error.message,
+    });
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const ifUserExists = await checkIfUserExists(email);
+
+    if (!ifUserExists) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const query = `SELECT * FROM users WHERE email = ?`;
+
+    dbConnection.query(query, [email], async (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          message: "Failed to login",
+          error: err.message,
+        });
+      }
+      const user = result[0];
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+      return res.status(200).json({ message: "User logged in successfully" });
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Failed to login",
+      error: err.message,
     });
   }
 };
