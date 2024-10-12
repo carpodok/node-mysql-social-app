@@ -1,5 +1,6 @@
 const dbConnection = require("../../config/db");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const checkIfUserExists = (email) => {
   const query = `SELECT * FROM users WHERE email = ?`;
@@ -18,7 +19,7 @@ const hashPassword = async (password) => {
 
 const register = async (req, res) => {
   try {
-    const { username, name, email, password } = req.body;
+    const { username, name, email, password: enteredPassword } = req.body;
 
     // Check if user already exists
     const userExists = await checkIfUserExists(email);
@@ -27,7 +28,7 @@ const register = async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(enteredPassword);
 
     // Insert user into database
     dbConnection.query(
@@ -57,7 +58,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password: enteredPassword } = req.body;
 
     const ifUserExists = await checkIfUserExists(email);
 
@@ -74,12 +75,32 @@ const login = async (req, res) => {
           error: err.message,
         });
       }
+
       const user = result[0];
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compare(
+        enteredPassword,
+        user.password
+      );
       if (!isPasswordValid) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
-      return res.status(200).json({ message: "User logged in successfully" });
+
+      const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET
+      );
+
+      const { password, ...userWithoutPassword } = user;
+      return res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          message: "User logged in successfully",
+          token: token,
+          user: userWithoutPassword,
+        });
     });
   } catch (err) {
     return res.status(500).json({
