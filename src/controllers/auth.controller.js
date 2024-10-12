@@ -21,16 +21,13 @@ const register = async (req, res) => {
   try {
     const { username, name, email, password: enteredPassword } = req.body;
 
-    // Check if user already exists
     const userExists = await checkIfUserExists(email);
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash the password
     const hashedPassword = await hashPassword(enteredPassword);
 
-    // Insert user into database
     dbConnection.query(
       `INSERT INTO users (user_name, name, email, password) VALUES (?, ?, ?, ?)`,
       [username, name, email, hashedPassword],
@@ -109,7 +106,15 @@ const login = async (req, res) => {
     });
   }
 };
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+  return res
+    .clearCookie("access_token", {
+      secure: true,
+      sameSite: "none",
+    })
+    .status(200)
+    .json({ message: "User logged out successfully" });
+};
 
 module.exports = {
   login,
