@@ -13,6 +13,7 @@ app.use(cookieParser());
 
 //Routes
 app.use("/api/v1/", require("./routes/auth.route"));
+app.use("/api/v1/", require("./routes/posts.route"));
 
 app.get("/", (req, res) => {
   res.send("Hello Server!");
