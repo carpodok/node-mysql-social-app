@@ -15,6 +15,7 @@ app.use(cookieParser());
 app.use("/api/v1/", require("./routes/auth.route"));
 app.use("/api/v1/", require("./routes/posts.route"));
 app.use("/api/v1/", require("./routes/comments.route"));
+app.use("/api/v1/", require("./routes/likes.route"));
 
 app.get("/", (req, res) => {
   res.send("Hello Server!");
