@@ -1,4 +1,8 @@
 const dbConnection = require("../../config/db");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../helpers/responseHandler");
 
 const getRelationships = async (req, res) => {
   const userId = req.query.userId;
@@ -9,27 +13,23 @@ const getRelationships = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to get relationships",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to get relationships", err);
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "Successfully retrieved relationships",
-          data: result,
-        });
+        return sendSuccessResponse(
+          res,
+          200,
+          "Successfully retrieved relationships",
+          {
+            data: result,
+          }
+        );
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get relationships",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to get relationships", err);
   }
 };
+
 const addRelationships = async (req, res) => {
   const followerUserId = req.user.id;
   const followedUserId = req.body.followedUserId;
@@ -42,31 +42,25 @@ const addRelationships = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to add relationships",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to add relationships", err);
       } else {
-        return res.status(201).json({
-          success: true,
-          message: "Successfully added relationships",
-          data: {
+        return sendSuccessResponse(
+          res,
+          201,
+          "Successfully added relationships",
+          {
             id: result.insertId,
             follower_user_id: followerUserId,
             followed_user_id: followedUserId,
-          },
-        });
+          }
+        );
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to add relationships",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to add relationships", err);
   }
 };
+
 const deleteRelationships = async (req, res) => {
   const followedUserId = req.params.userId;
   const followerUserId = req.user.id;
@@ -78,24 +72,22 @@ const deleteRelationships = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to delete relationships",
-          error: err.message,
-        });
+        return sendErrorResponse(
+          res,
+          500,
+          "Failed to delete relationships",
+          err
+        );
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "Successfully deleted relationships",
-        });
+        return sendSuccessResponse(
+          res,
+          200,
+          "Successfully deleted relationships"
+        );
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete relationships",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to delete relationships", err);
   }
 };
 
