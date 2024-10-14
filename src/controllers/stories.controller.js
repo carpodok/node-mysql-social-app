@@ -56,6 +56,12 @@ const addStory = async (req, res) => {
         return res.status(201).json({
           success: true,
           message: "Successfully added story",
+          data: {
+            id: result.insertId,
+            img,
+            created_at: currDate,
+            user_id: userId,
+          },
         });
       }
     });

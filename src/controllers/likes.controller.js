@@ -61,6 +61,10 @@ const addLike = async (req, res) => {
           return res.status(200).json({
             success: true,
             message: "Post has been disliked.",
+            data: {
+              userId: userId,
+              postId: postId,
+            },
           });
         });
       } else {
@@ -77,6 +81,10 @@ const addLike = async (req, res) => {
           return res.status(200).json({
             success: true,
             message: "Post has been liked.",
+            data: {
+              userId: userId,
+              postId: postId,
+            },
           });
         });
       }

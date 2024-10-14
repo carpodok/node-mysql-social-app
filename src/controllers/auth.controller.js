@@ -37,10 +37,18 @@ const register = async (req, res) => {
             message: "Failed to register user",
             error: err.message,
           });
+        } else {
+          return res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            data: {
+              id: result.insertId,
+              username,
+              name,
+              email,
+            },
+          });
         }
-        return res
-          .status(201)
-          .json({ message: "User registered successfully" });
       }
     );
 
@@ -96,7 +104,7 @@ const login = async (req, res) => {
         .json({
           message: "User logged in successfully",
           token: token,
-          user: userWithoutPassword,
+          data: userWithoutPassword,
         });
     });
   } catch (err) {

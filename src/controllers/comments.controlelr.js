@@ -59,6 +59,13 @@ const createComment = async (req, res) => {
         return res.status(201).json({
           success: true,
           message: "Comment created successfully",
+          data: {
+            id: result.insertId,
+            user_id: user.id,
+            post_id,
+            desc,
+            created_at: currDate,
+          },
         });
       }
     });

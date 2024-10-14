@@ -54,7 +54,7 @@ const updateUser = async (req, res) => {
         return res.status(200).json({
           success: true,
           message: "User updated",
-          user: {
+          data: {
             id: userId,
             name: name,
             email: email,

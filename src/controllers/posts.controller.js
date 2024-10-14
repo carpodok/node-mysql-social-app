@@ -47,7 +47,7 @@ const createPost = async (req, res) => {
         return res.status(200).json({
           success: true,
           message: "Post created successfully",
-          post: {
+          data: {
             id: result.insertId,
             user_id,
             desc,
