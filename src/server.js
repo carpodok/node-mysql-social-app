@@ -18,10 +18,7 @@ app.use("/api/v1/", require("./routes/comments.route"));
 app.use("/api/v1/", require("./routes/likes.route"));
 app.use("/api/v1/", require("./routes/stories.route"));
 app.use("/api/v1/", require("./routes/users.route"));
-
-app.get("/", (req, res) => {
-  res.send("Hello Server!");
-});
+app.use("/api/v1/", require("./routes/relationships.route"));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
