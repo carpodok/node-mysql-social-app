@@ -30,11 +30,38 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const userId = req.user.id;
-  const { name, username, email } = req.body;
+  const { name, username, email, profile_pic, cover_pic } = req.body;
 
   try {
-    const q = `UPDATE users SET name = ?, username = ?, email = ? WHERE id = ?`;
-    const values = [name, username, email, userId];
+    let q = `UPDATE users SET `;
+    let values = [];
+
+    if (name) {
+      q += `name = ?, `;
+      values.push(name);
+    }
+    if (username) {
+      q += `username = ?, `;
+      values.push(username);
+    }
+    if (email) {
+      q += `email = ?, `;
+      values.push(email);
+    }
+    if (profile_pic) {
+      q += `profile_pic = ?, `;
+      values.push(profile_pic);
+    }
+    if (cover_pic) {
+      q += `cover_pic = ?, `;
+      values.push(cover_pic);
+    }
+
+    // Remove the last comma and space from the query string
+    q = q.slice(0, -2);
+
+    q += ` WHERE id = ?`;
+    values.push(userId);
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
@@ -42,9 +69,9 @@ const updateUser = async (req, res) => {
       } else {
         return sendSuccessResponse(res, 200, "User updated", {
           id: userId,
-          name: name,
-          username: username,
-          email: email,
+          name: name || undefined,
+          username: username || undefined,
+          email: email || undefined,
         });
       }
     });
