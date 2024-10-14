@@ -1,4 +1,8 @@
 const dbConnection = require("../../config/db");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../helpers/responseHandler");
 
 const getLikes = async (req, res) => {
   const { postId } = req.query;
@@ -9,27 +13,18 @@ const getLikes = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to get likes",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to get likes", err);
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "Successfully retrieved likes",
+        return sendSuccessResponse(res, 200, "Successfully retrieved likes", {
           likes: result,
         });
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get likes",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to get likes", err);
   }
 };
+
 const addLike = async (req, res) => {
   const { postId } = req.body;
   const userId = req.user.id;
@@ -40,11 +35,7 @@ const addLike = async (req, res) => {
     const q = "SELECT * FROM likes WHERE user_id = ? AND post_id = ?";
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to like post",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to like post", err);
       }
 
       if (result.length > 0) {
@@ -52,19 +43,11 @@ const addLike = async (req, res) => {
         const q = "DELETE FROM likes WHERE user_id = ? AND post_id = ?";
         dbConnection.query(q, values, (err, result) => {
           if (err) {
-            return res.status(500).json({
-              success: false,
-              message: "Failed to dislike post",
-              error: err.message,
-            });
+            return sendErrorResponse(res, 500, "Failed to dislike post", err);
           }
-          return res.status(200).json({
-            success: true,
-            message: "Post has been disliked.",
-            data: {
-              userId: userId,
-              postId: postId,
-            },
+          return sendSuccessResponse(res, 200, "Post has been disliked.", {
+            userId,
+            postId,
           });
         });
       } else {
@@ -72,29 +55,17 @@ const addLike = async (req, res) => {
         const q = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
         dbConnection.query(q, values, (err, result) => {
           if (err) {
-            return res.status(500).json({
-              success: false,
-              message: "Failed to like post",
-              error: err.message,
-            });
+            return sendErrorResponse(res, 500, "Failed to like post", err);
           }
-          return res.status(200).json({
-            success: true,
-            message: "Post has been liked.",
-            data: {
-              userId: userId,
-              postId: postId,
-            },
+          return sendSuccessResponse(res, 200, "Post has been liked.", {
+            userId,
+            postId,
           });
         });
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to like post",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to like post", err);
   }
 };
 
