@@ -1,4 +1,8 @@
 const dbConnection = require("../../config/db");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../helpers/responseHandler");
 
 const getUser = async (req, res) => {
   const { userId } = req.params;
@@ -9,65 +13,43 @@ const getUser = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to get user",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to get user", err);
+      } else if (result.length === 0) {
+        return sendErrorResponse(res, 404, "User not found");
       } else {
         const { password, ...userWithoutPassword } = result[0];
-
-        return res.status(200).json({
-          success: true,
-          message: "User fetched successfully",
+        return sendSuccessResponse(res, 200, "User fetched successfully", {
           user: userWithoutPassword,
         });
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get user",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to get user", err);
   }
 };
 
 const updateUser = async (req, res) => {
   const userId = req.user.id;
-  const { name, email } = req.body;
+  const { name, username, email } = req.body;
 
   try {
-    const q = `UPDATE users SET name = ?, email = ?
-    WHERE id = ?`;
-
-    const values = [name, email, userId];
+    const q = `UPDATE users SET name = ?, username = ?, email = ? WHERE id = ?`;
+    const values = [name, username, email, userId];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed to update user",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to update user", err);
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "User updated",
-          data: {
-            id: userId,
-            name: name,
-            email: email,
-          },
+        return sendSuccessResponse(res, 200, "User updated", {
+          id: userId,
+          name: name,
+          username: username,
+          email: email,
         });
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update user",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to update user", err);
   }
 };
 
