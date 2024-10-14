@@ -1,11 +1,15 @@
 const dbConnection = require("../../config/db");
 const getCurrentDate = require("../helpers/getCurrentDate");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../helpers/responseHandler");
 
 const getComments = async (req, res) => {
   const { postId } = req.query;
 
   try {
-    const q = `SELECT c.* ,u.id AS userId, name
+    const q = `SELECT c.*, u.id AS userId, name
     FROM comments AS c 
     JOIN users AS u ON (u.id = c.user_id)
     WHERE c.post_id = ?
@@ -15,32 +19,21 @@ const getComments = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          message: "Failed to fetch comments",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to fetch comments", err);
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "Comments fetched successfully",
+        return sendSuccessResponse(res, 200, "Comments fetched successfully", {
           comments: result,
         });
       }
     });
   } catch (err) {
-    return res.statur(500).json({
-      success: false,
-      message: "Failed to get comments",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to get comments", err);
   }
 };
 
 const createComment = async (req, res) => {
   const user = req.user;
-
   const { desc, post_id } = req.body;
-
   const currDate = getCurrentDate();
 
   try {
@@ -51,30 +44,19 @@ const createComment = async (req, res) => {
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          message: "Failed to create comment",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to create comment", err);
       } else {
-        return res.status(201).json({
-          success: true,
-          message: "Comment created successfully",
-          data: {
-            id: result.insertId,
-            user_id: user.id,
-            post_id,
-            desc,
-            created_at: currDate,
-          },
+        return sendSuccessResponse(res, 201, "Comment created successfully", {
+          id: result.insertId,
+          user_id: user.id,
+          post_id,
+          desc,
+          created_at: currDate,
         });
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create comment",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to create comment", err);
   }
 };
 
@@ -83,28 +65,17 @@ const deleteComment = async (req, res) => {
 
   try {
     const q = "DELETE FROM comments WHERE id = ?";
-
     const values = [commentId];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
-        return res.status(500).json({
-          message: "Failed to delete comment",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to delete comment", err);
       } else {
-        return res.status(200).json({
-          success: true,
-          message: "Comment deleted successfully",
-        });
+        return sendSuccessResponse(res, 200, "Comment deleted successfully");
       }
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete comment",
-      error: err.message,
-    });
+    return sendErrorResponse(res, 500, "Failed to delete comment", err);
   }
 };
 
