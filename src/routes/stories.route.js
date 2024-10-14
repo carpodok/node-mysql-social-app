@@ -7,8 +7,8 @@ const {
 
 const verifyAuth = require("../middlewares/verifyAuth");
 
-router.get("/", verifyAuth, getStories);
-router.post("/", verifyAuth, addStory);
-router.delete("/:storyId", verifyAuth, deleteStory);
+router.get("/stories", verifyAuth, getStories);
+router.post("/stories", verifyAuth, addStory);
+router.delete("/stories/:storyId", verifyAuth, deleteStory);
 
 module.exports = router;
