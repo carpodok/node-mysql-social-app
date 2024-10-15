@@ -45,15 +45,7 @@ const createComment = async (req, res) => {
     const q =
       "INSERT INTO comments (user_id, post_id, `desc`, created_at) VALUES (?, ?, ?, ?)";
 
-    const values = [
-      user.id,
-      getComments,
-      deleteComment,
-      createComment,
-      ,
-      desc,
-      currDate,
-    ];
+    const values = [user.id, parseInt(postId), desc, currDate];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {

@@ -134,7 +134,7 @@ router.delete("/:postId", deletePostValidator, verifyAuth, deletePost);
  *       500:
  *         description: Failed to fetch comments
  */
-router.use("/:postId/comments", getCommentsValidator, verifyAuth, getComments);
+router.get("/:postId/comments", getCommentsValidator, verifyAuth, getComments);
 
 /**
  * @swagger
