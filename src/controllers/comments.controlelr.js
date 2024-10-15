@@ -6,16 +6,19 @@ const {
 } = require("../helpers/responseHandler");
 
 const getComments = async (req, res) => {
-  const { postId } = req.query;
+  const { postId, page = 1, limit = 5 } = req.query;
+
+  const offset = (page - 1) * limit;
 
   try {
     const q = `SELECT c.*, u.id AS userId, name
     FROM comments AS c 
     JOIN users AS u ON (u.id = c.user_id)
     WHERE c.post_id = ?
-    ORDER BY c.created_at DESC`;
+    ORDER BY c.created_at DESC
+    LIMIT ? OFFSET ?`;
 
-    const values = [postId];
+    const values = [postId, parseInt(limit), parseInt(offset)];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
