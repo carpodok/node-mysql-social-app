@@ -1,7 +1,7 @@
-const { body, query } = require("express-validator");
+const { body, param } = require("express-validator");
 
 const getLikesValidator = [
-  query("postId")
+  param("postId")
     .notEmpty()
     .withMessage("Post ID is required")
     .isInt()

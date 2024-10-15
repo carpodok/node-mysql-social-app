@@ -12,6 +12,7 @@ const {
   createComment,
 } = require("../controllers/comments.controller");
 const verifyAuth = require("../middlewares/verifyAuth");
+const { getLikes, addLike } = require("../controllers/likes.controller");
 
 //Validators
 const {
@@ -24,6 +25,10 @@ const {
   getCommentsValidator,
   deleteCommentValidator,
 } = require("../middlewares/validators/comments.validator");
+const {
+  getLikesValidator,
+  addLikeValidator,
+} = require("../middlewares/validators/likes.validator");
 
 // Posts
 router.get("/", getPostsValidator, verifyAuth, getPosts);
@@ -44,5 +49,9 @@ router.delete(
   verifyAuth,
   deleteComment
 );
+
+//Post Likes
+router.get("/:postId/likes", getLikesValidator, getLikes);
+router.post("/:postId/likes", addLikeValidator, addLike);
 
 module.exports = router;

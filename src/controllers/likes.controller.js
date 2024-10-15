@@ -5,7 +5,7 @@ const {
 } = require("../helpers/responseHandler");
 
 const getLikes = async (req, res) => {
-  const { postId } = req.query;
+  const { postId } = req.params;
 
   try {
     const q = "SELECT * FROM likes WHERE post_id = ?";
