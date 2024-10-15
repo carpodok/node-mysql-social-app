@@ -6,9 +6,29 @@ const {
 } = require("../controllers/relationships.controller");
 
 const verifyAuth = require("../middlewares/verifyAuth");
+const {
+  getRelationshipsValidator,
+  addRelationshipsValidator,
+  deleteRelationshipsValidator,
+} = require("../middlewares/validators/relationsships.validator");
 
-router.get("/relations", verifyAuth, getRelationships);
-router.post("/relations", verifyAuth, addRelationships);
-router.delete("/relations/:userId", verifyAuth, deleteRelationships);
+router.get(
+  "/relations",
+  getRelationshipsValidator,
+  verifyAuth,
+  getRelationships
+);
+router.post(
+  "/relations",
+  addRelationshipsValidator,
+  verifyAuth,
+  addRelationships
+);
+router.delete(
+  "/relations/:userId",
+  deleteRelationshipsValidator,
+  verifyAuth,
+  deleteRelationships
+);
 
 module.exports = router;
