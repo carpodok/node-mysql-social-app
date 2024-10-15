@@ -1,3 +1,4 @@
+const { parse } = require("dotenv");
 const dbConnection = require("../../config/db");
 const getCurrentDate = require("../helpers/getCurrentDate");
 const {
@@ -8,13 +9,16 @@ const {
 const getStories = async (req, res) => {
   const userId = req.user.id;
 
+  const { limit = 5, page = 1 } = req.query;
+  const offset = (page - 1) * limit;
+
   try {
     const q = `SELECT s.* FROM stories AS s
     JOIN users AS u ON (u.id = s.user_id)
     LEFT JOIN relationships AS r ON (r.followed_user_id = s.user_id AND r.follower_user_id = ?)
-    LIMIT 5;`;
+    LIMIT ? OFFSET ?;`;
 
-    const values = [userId];
+    const values = [userId, parseInt(limit), parseInt(offset)];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
@@ -22,6 +26,8 @@ const getStories = async (req, res) => {
       } else {
         return sendSuccessResponse(res, 200, "Successfully retrieved stories", {
           stories: result,
+          page: parseInt(page),
+          limit: parseInt(limit),
         });
       }
     });
