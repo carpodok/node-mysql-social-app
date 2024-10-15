@@ -29,7 +29,7 @@ const register = async (req, res) => {
     const hashedPassword = await hashPassword(enteredPassword);
 
     dbConnection.query(
-      `INSERT INTO users (user_name, name, email, password) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO users (username, name, email, password) VALUES (?, ?, ?, ?)`,
       [username, name, email, hashedPassword],
       (err, result) => {
         if (err) {
@@ -51,8 +51,6 @@ const register = async (req, res) => {
         }
       }
     );
-
-    return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     return res.status(500).json({
       message: "Failed to register user",
