@@ -33,47 +33,55 @@ const updateUser = async (req, res) => {
   const { name, username, email, profile_pic, cover_pic } = req.body;
 
   try {
-    let q = `UPDATE users SET `;
+    let fields = [];
     let values = [];
 
     if (name) {
-      q += `name = ?, `;
+      fields.push("name = ?");
       values.push(name);
     }
     if (username) {
-      q += `username = ?, `;
+      fields.push("username = ?");
       values.push(username);
     }
     if (email) {
-      q += `email = ?, `;
+      fields.push("email = ?");
       values.push(email);
     }
     if (profile_pic) {
-      q += `profile_pic = ?, `;
+      fields.push("profile_pic = ?");
       values.push(profile_pic);
     }
     if (cover_pic) {
-      q += `cover_pic = ?, `;
+      fields.push("cover_pic = ?");
       values.push(cover_pic);
     }
 
-    // Remove the last comma and space from the query string
-    q = q.slice(0, -2);
+    if (fields.length === 0) {
+      return sendErrorResponse(res, 400, "No fields provided for update");
+    }
 
-    q += ` WHERE id = ?`;
+    let q = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
     values.push(userId);
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
         return sendErrorResponse(res, 500, "Failed to update user", err);
-      } else {
-        return sendSuccessResponse(res, 200, "User updated", {
-          id: userId,
-          name: name || undefined,
-          username: username || undefined,
-          email: email || undefined,
-        });
       }
+
+      const updatedFields = {};
+      if (name) updatedFields.name = name;
+      if (username) updatedFields.username = username;
+      if (email) updatedFields.email = email;
+      if (profile_pic) updatedFields.profile_pic = profile_pic;
+      if (cover_pic) updatedFields.cover_pic = cover_pic;
+
+      return sendSuccessResponse(res, 200, "User updated", {
+        user: {
+          id: userId,
+          ...updatedFields,
+        },
+      });
     });
   } catch (err) {
     return sendErrorResponse(res, 500, "Failed to update user", err);
