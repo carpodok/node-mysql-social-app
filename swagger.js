@@ -6,12 +6,11 @@ const options = {
     openapi: "3.0.0",
     info: {
       title: "Node MySQL Social App REST API",
-      description:
-        "API endpoints for a social media application documented on swagger",
+      description: `API endpoints for a social media application documented on swagger. 
+        \n\n[GitHub Repository](https://github.com/carpodok/node-mysql-social-app)`,
       contact: {
         name: "Ali Talha ÇOBAN",
         email: "cobanalitalha@gmail.com",
-        url: "https://github.com/carpodok/node-mysql-social-app",
       },
       version: "1.0.0",
     },
