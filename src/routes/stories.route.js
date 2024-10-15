@@ -12,13 +12,8 @@ const {
   deleteStoryValidator,
 } = require("../middlewares/validators/stories.validator");
 
-router.get("/stories", getStoriesValidator, verifyAuth, getStories);
-router.post("/stories", addStoryValidator, verifyAuth, addStory);
-router.delete(
-  "/stories/:storyId",
-  deleteStoryValidator,
-  verifyAuth,
-  deleteStory
-);
+router.get("/", getStoriesValidator, verifyAuth, getStories);
+router.post("/", addStoryValidator, verifyAuth, addStory);
+router.delete("/:storyId", deleteStoryValidator, verifyAuth, deleteStory);
 
 module.exports = router;

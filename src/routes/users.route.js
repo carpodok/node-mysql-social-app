@@ -6,7 +6,7 @@ const {
   updateUserValidator,
 } = require("../middlewares/validators/users.validator");
 
-router.get("/users/:userId", getUserValidator, getUser);
-router.put("/users", updateUserValidator, verifyAuth, updateUser);
+router.get("/:userId", getUserValidator, getUser);
+router.put("/", updateUserValidator, verifyAuth, updateUser);
 
 module.exports = router;

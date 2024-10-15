@@ -12,20 +12,10 @@ const {
   deleteRelationshipsValidator,
 } = require("../middlewares/validators/relationsships.validator");
 
-router.get(
-  "/relations",
-  getRelationshipsValidator,
-  verifyAuth,
-  getRelationships
-);
-router.post(
-  "/relations",
-  addRelationshipsValidator,
-  verifyAuth,
-  addRelationships
-);
+router.get("/", getRelationshipsValidator, verifyAuth, getRelationships);
+router.post("/", addRelationshipsValidator, verifyAuth, addRelationships);
 router.delete(
-  "/relations/:userId",
+  "/:userId",
   deleteRelationshipsValidator,
   verifyAuth,
   deleteRelationships
