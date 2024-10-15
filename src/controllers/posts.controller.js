@@ -16,7 +16,7 @@ const getPosts = async (req, res) => {
                  JOIN users AS u ON (u.id = p.user_id)
                  LEFT JOIN relationships AS r ON (p.user_id = r.followed_user_id) 
                  WHERE r.follower_user_id = ? OR p.user_id = ?
-                 ORDER BY p.createdAt DESC
+                 ORDER BY p.created_at DESC
                  LIMIT ? OFFSET ?`;
 
     const values = [userId, userId, parseInt(limit), parseInt(offset)];

@@ -6,7 +6,8 @@ const {
 } = require("../helpers/responseHandler");
 
 const getComments = async (req, res) => {
-  const { postId, page = 1, limit = 5 } = req.query;
+  const { page = 1, limit = 5 } = req.query;
+  const { postId } = req.params;
 
   const offset = (page - 1) * limit;
 
@@ -36,14 +37,23 @@ const getComments = async (req, res) => {
 
 const createComment = async (req, res) => {
   const user = req.user;
-  const { desc, post_id } = req.body;
+  const { desc } = req.body;
   const currDate = getCurrentDate();
+  const { postId } = req.params;
 
   try {
     const q =
       "INSERT INTO comments (user_id, post_id, `desc`, created_at) VALUES (?, ?, ?, ?)";
 
-    const values = [user.id, post_id, desc, currDate];
+    const values = [
+      user.id,
+      getComments,
+      deleteComment,
+      createComment,
+      ,
+      desc,
+      currDate,
+    ];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
@@ -52,7 +62,7 @@ const createComment = async (req, res) => {
         return sendSuccessResponse(res, 201, "Comment created successfully", {
           id: result.insertId,
           user_id: user.id,
-          post_id,
+          post_id: postId,
           desc,
           created_at: currDate,
         });
