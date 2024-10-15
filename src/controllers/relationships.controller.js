@@ -6,10 +6,15 @@ const {
 
 const getRelationships = async (req, res) => {
   const userId = req.query.userId;
+  const { limit = 5, page = 1 } = req.query;
+  const offset = (page - 1) * limit;
 
   try {
-    const q = "SELECT * FROM relationships WHERE followed_user_id = ?";
-    const values = [userId];
+    const q = `SELECT * FROM relationships
+     WHERE followed_user_id = ?
+     LIMIT ? OFFSET ?`;
+
+    const values = [userId, parseInt(limit), parseInt(offset)];
 
     dbConnection.query(q, values, (err, result) => {
       if (err) {
