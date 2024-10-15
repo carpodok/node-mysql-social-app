@@ -7,23 +7,32 @@ const {
 
 const getPosts = async (req, res) => {
   const userId = req.user.id;
+  const { limit = 5, page = 1 } = req.query;
+  const offset = (page - 1) * limit;
 
-  const query = `SELECT p.*, u.id AS userId, name 
+  try {
+    const query = `SELECT p.*, u.id AS userId, name 
                  FROM posts AS p 
                  JOIN users AS u ON (u.id = p.user_id)
                  LEFT JOIN relationships AS r ON (p.user_id = r.followed_user_id) 
                  WHERE r.follower_user_id = ? OR p.user_id = ?
-                 ORDER BY p.createdAt DESC`;
+                 ORDER BY p.createdAt DESC
+                 LIMIT ? OFFSET ?`;
 
-  dbConnection.query(query, [userId, userId], (err, result) => {
-    if (err) {
-      return sendErrorResponse(res, 500, "Failed to fetch posts", err);
-    }
+    const values = [userId, userId, parseInt(limit), parseInt(offset)];
 
-    return sendSuccessResponse(res, 200, "Posts fetched successfully", {
-      posts: result,
+    dbConnection.query(query, values, (err, result) => {
+      if (err) {
+        return sendErrorResponse(res, 500, "Failed to fetch posts", err);
+      }
+
+      return sendSuccessResponse(res, 200, "Posts fetched successfully", {
+        posts: result,
+      });
     });
-  });
+  } catch (err) {
+    return sendErrorResponse(res, 500, "Failed to fetch posts", err);
+  }
 };
 
 const createPost = async (req, res) => {
