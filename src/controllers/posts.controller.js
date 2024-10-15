@@ -66,7 +66,7 @@ const createPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   const userId = req.user.id;
-  const postId = req.params.postId;
+  const { postId } = req.params;
 
   try {
     const q = "DELETE FROM posts WHERE id = ? AND user_id = ?";

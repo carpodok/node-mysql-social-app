@@ -37,7 +37,7 @@ const getRelationships = async (req, res) => {
 
 const addRelationships = async (req, res) => {
   const followerUserId = req.user.id;
-  const followedUserId = req.body.followedUserId;
+  const { followedUserId } = req.body;
 
   try {
     const q =

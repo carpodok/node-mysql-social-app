@@ -26,7 +26,7 @@ const getLikes = async (req, res) => {
 };
 
 const addLike = async (req, res) => {
-  const { postId } = req.body;
+  const { postId } = req.params;
   const userId = req.user.id;
   const values = [userId, postId];
 
