@@ -225,7 +225,7 @@ router.delete(
  *       500:
  *         description: Failed to fetch likes
  */
-router.get("/:postId/likes", getLikesValidator, getLikes);
+router.get("/:postId/likes", getLikesValidator, verifyAuth, getLikes);
 
 /**
  * @swagger
@@ -247,6 +247,6 @@ router.get("/:postId/likes", getLikesValidator, getLikes);
  *       500:
  *         description: Failed to like/dislike post
  */
-router.post("/:postId/likes", addLikeValidator, addLike);
+router.post("/:postId/likes", addLikeValidator, verifyAuth, addLike);
 
 module.exports = router;

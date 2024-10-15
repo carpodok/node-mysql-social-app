@@ -52,11 +52,13 @@ const createComment = async (req, res) => {
         return sendErrorResponse(res, 500, "Failed to create comment", err);
       } else {
         return sendSuccessResponse(res, 201, "Comment created successfully", {
-          id: result.insertId,
-          user_id: user.id,
-          post_id: postId,
-          desc,
-          created_at: currDate,
+          comment: {
+            id: result.insertId,
+            user_id: user.id,
+            post_id: postId,
+            desc,
+            created_at: currDate,
+          },
         });
       }
     });
