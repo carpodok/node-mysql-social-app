@@ -25,7 +25,7 @@ const getRelationships = async (req, res) => {
           200,
           "Successfully retrieved relationships",
           {
-            data: result,
+            relationships: result,
           }
         );
       }
@@ -54,9 +54,11 @@ const addRelationships = async (req, res) => {
           201,
           "Successfully added relationships",
           {
-            id: result.insertId,
-            follower_user_id: followerUserId,
-            followed_user_id: followedUserId,
+            relationship: {
+              id: result.insertId,
+              follower_user_id: followerUserId,
+              followed_user_id: followedUserId,
+            },
           }
         );
       }

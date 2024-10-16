@@ -52,11 +52,13 @@ const createPost = async (req, res) => {
       }
 
       return sendSuccessResponse(res, 200, "Post created successfully", {
-        id: result.insertId,
-        user_id,
-        desc,
-        img,
-        created_at: dateNow,
+        post: {
+          id: result.insertId,
+          user_id,
+          desc,
+          img,
+          created_at: dateNow,
+        },
       });
     });
   } catch (err) {

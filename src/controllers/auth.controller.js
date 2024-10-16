@@ -90,10 +90,8 @@ const login = async (req, res) => {
       const { password, ...userWithoutPassword } = user;
 
       return sendSuccessResponse(res, 200, "User logged in successfully", {
-        data: {
-          token,
-          user: userWithoutPassword,
-        },
+        token,
+        user: userWithoutPassword,
       });
     });
   } catch (err) {

@@ -26,8 +26,6 @@ const getStories = async (req, res) => {
       } else {
         return sendSuccessResponse(res, 200, "Successfully retrieved stories", {
           stories: result,
-          page: parseInt(page),
-          limit: parseInt(limit),
         });
       }
     });
@@ -50,10 +48,12 @@ const addStory = async (req, res) => {
         return sendErrorResponse(res, 500, "Failed to add story", err);
       } else {
         return sendSuccessResponse(res, 201, "Successfully added story", {
-          id: result.insertId,
-          img,
-          created_at: currDate,
-          user_id: userId,
+          story: {
+            id: result.insertId,
+            img,
+            created_at: currDate,
+            user_id: userId,
+          },
         });
       }
     });
