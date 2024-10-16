@@ -112,18 +112,8 @@ const login = async (req, res) => {
     });
   }
 };
-const logout = async (req, res) => {
-  return res
-    .clearCookie("access_token", {
-      secure: true,
-      sameSite: "none",
-    })
-    .status(200)
-    .json({ message: "User logged out successfully" });
-};
 
 module.exports = {
   login,
   register,
-  logout,
 };

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { login, register, logout } = require("../controllers/auth.controller");
+const { login, register } = require("../controllers/auth.controller");
 const {
   loginValidator,
   registerValidator,
@@ -72,18 +72,5 @@ router.post("/login", loginValidator, login);
  *         description: Internal server error
  */
 router.post("/register", registerValidator, register);
-
-/**
- * @swagger
- * /auth/logout:
- *   get:
- *     summary: User logout
- *     description: Log out a user by clearing the access token cookie
- *     tags: [Auth]
- *     responses:
- *       200:
- *         description: User logged out successfully
- */
-router.get("/logout", logout);
 
 module.exports = router;
