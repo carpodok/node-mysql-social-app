@@ -2,6 +2,11 @@ const dbConnection = require("../../config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../helpers/responseHandler");
+
 const checkIfUserExists = (email) => {
   const query = `SELECT * FROM users WHERE email = ?`;
   return new Promise((resolve, reject) => {
@@ -28,34 +33,25 @@ const register = async (req, res) => {
 
     const hashedPassword = await hashPassword(enteredPassword);
 
-    dbConnection.query(
-      `INSERT INTO users (username, name, email, password) VALUES (?, ?, ?, ?)`,
-      [username, name, email, hashedPassword],
-      (err, result) => {
-        if (err) {
-          return res.status(500).json({
-            message: "Failed to register user",
-            error: err.message,
-          });
-        } else {
-          return res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            data: {
-              id: result.insertId,
-              username,
-              name,
-              email,
-            },
-          });
-        }
+    const q = `INSERT INTO users (username, name, email, password) VALUES (?, ?, ?, ?)`;
+    const values = [username, name, email, hashedPassword];
+
+    dbConnection.query(q, values, (err, result) => {
+      if (err) {
+        return sendErrorResponse(res, 500, "Failed to register user", err);
+      } else {
+        return sendSuccessResponse(res, 201, "User registered successfully", {
+          user: {
+            id: result.insertId,
+            username,
+            name,
+            email,
+          },
+        });
       }
-    );
-  } catch (error) {
-    return res.status(500).json({
-      message: "Failed to register user",
-      error: error.message,
     });
+  } catch (error) {
+    return sendErrorResponse(res, 500, "Failed to register user", error);
   }
 };
 
@@ -69,14 +65,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const query = `SELECT * FROM users WHERE email = ?`;
+    const q = `SELECT * FROM users WHERE email = ?`;
+    const values = [email];
 
-    dbConnection.query(query, [email], async (err, result) => {
+    dbConnection.query(q, values, async (err, result) => {
       if (err) {
-        return res.status(500).json({
-          message: "Failed to login",
-          error: err.message,
-        });
+        return sendErrorResponse(res, 500, "Failed to login", err);
       }
 
       const user = result[0];
@@ -85,7 +79,7 @@ const login = async (req, res) => {
         user.password
       );
       if (!isPasswordValid) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return sendErrorResponse(res, 400, "Invalid credentials");
       }
 
       const token = jwt.sign(
@@ -94,16 +88,13 @@ const login = async (req, res) => {
       );
 
       const { password, ...userWithoutPassword } = user;
-      return res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({
-          message: "User logged in successfully",
-          token: token,
-          data: userWithoutPassword,
-        });
+
+      return sendSuccessResponse(res, 200, "User logged in successfully", {
+        data: {
+          token,
+          user: userWithoutPassword,
+        },
+      });
     });
   } catch (err) {
     return res.status(500).json({
