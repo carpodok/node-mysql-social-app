@@ -17,17 +17,18 @@ Below is an overview of the available endpoints and their functionalities.
 ![posts](https://github.com/user-attachments/assets/4dc29db5-f41f-4edd-b7e2-119712f6f391)
 ![relationships](https://github.com/user-attachments/assets/4ceb445d-1419-4964-b868-06f19b4ca5df)
 ![stories](https://github.com/user-attachments/assets/814a9c62-c56a-41d8-b802-952acffd742a)
-![users](https://github.com/user-attachments/assets/f2f941dc-17bb-4a3f-afbb-6648cc413db0)
+![users](https://github.com/user-attachments/assets/d25eea1e-08ea-4f45-991a-d7b813212f55)
+
 
 ## Key Features
 
  This project implements the following key features to ensure a robust, secure, and scalable web application:
 
+- `CRUD Operation`: Full implementation of Create, Read, Update, and Delete functionalities for users, posts, stories and interactions.
 - `JWT-Based Authentication:` Secure user authentication using JSON Web Tokens (JWT) to manage user sessions.
 - `Password Hashing`: Secure password storage with hashing using the `bcryptjs` package.
 - `Server-Side Validation`: Input validation using the `express-validator` package to ensure data integrity and security.
 - `Pagination`: Implemented pagination for efficient result retrieval in larger datasets.
-- `CRUD Operation`: Full implementation of Create, Read, Update, and Delete functionalities for users, posts, stories and interactions.
 - `API Documentation`: Integrated `Swagger` for easy and structured API documentation, improving developer experience and collaboration.
 
 
