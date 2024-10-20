@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const { getUser, updateUser } = require("../controllers/users.controller");
+const { search } = require("../controllers/search.controller");
 const verifyAuth = require("../middlewares/verifyAuth");
 const {
   getUserValidator,
   updateUserValidator,
+  searchUserValidator,
 } = require("../middlewares/validators/users.validator");
 
 /**
@@ -29,6 +31,40 @@ const {
  *         description: Failed to get user
  */
 router.get("/:userId", getUserValidator, getUser);
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Search for users
+ *     description: Search for users based on query parameters such as name or username. The user must be authenticated.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The name of the user to search for
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The username of the user to search for
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Users found successfully
+ *       400:
+ *         description: Invalid search parameters
+ *       401:
+ *         description: Authentication required
+ *       500:
+ *         description: Failed to perform search
+ */
+router.get("/", searchUserValidator, verifyAuth, search);
 
 /**
  * @swagger

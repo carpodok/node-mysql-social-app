@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth/", require("./routes/auth.route"));
 app.use("/api/v1/posts/", require("./routes/posts.route"));
 app.use("/api/v1/stories/", require("./routes/stories.route"));
-app.use("/api/v1/users/", require("./routes/users.route"));
+app.use("/api/v1/users", require("./routes/users.route"));
 app.use("/api/v1/relationships/", require("./routes/relationships.route"));
 
 app.listen(PORT, () => {

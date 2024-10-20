@@ -1,4 +1,4 @@
-const { body, param } = require("express-validator");
+const { body, param, query } = require("express-validator");
 
 const getUserValidator = [
   param("userId")
@@ -24,7 +24,16 @@ const updateUserValidator = [
     .withMessage("Cover picture must be a valid URL"),
 ];
 
+const searchUserValidator = [
+  query("search")
+    .notEmpty()
+    .withMessage("Search query is required")
+    .isString()
+    .withMessage("Search query must be a string"),
+];
+
 module.exports = {
   getUserValidator,
   updateUserValidator,
+  searchUserValidator,
 };
