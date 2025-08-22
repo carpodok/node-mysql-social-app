@@ -25,7 +25,7 @@ It supports user authentication with **JWT** and provides core social media func
 ## 🚀 Endpoints
 
 - **Swagger UI**: `http://localhost:3000/api-docs`  
-- **Postman Collection**: [Here](https://martian-meteor-939359.postman.co/workspace/alitalhacoban-public-workspace~6633d43a-18bb-4f4d-84e1-94a76d318225/collection/18754010-93d1eb51-323f-4bdf-94ae-97623518517c?action=share&creator=18754010&active-environment=18754010-aa866eb4-8070-4788-a35f-9e6945d54ce3)  
+- **Postman Collection**: Use the provided JSON file in the project.  
 
 ### Screenshots  
 ![auth](https://github.com/user-attachments/assets/b808c577-f563-402d-b2a7-b02858a6155d)  
