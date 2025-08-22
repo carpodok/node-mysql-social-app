@@ -1,38 +1,55 @@
-# Node MySQL Social App
-This project is a RESTful API for a social media platform built using Node.js and MySQL. It supports user authentication with JWT and provides core social media functionalities like user management, posting, and interactions (followers). 
-The project follows a structured MVC architecture, with routes, controllers, and configuration files.
-Additionally, Swagger is used for documenting the API. This repository is designed to offer scalable and maintainable solutions for social media applications.
+# 👥 Social Media App
 
-## Endpoints
+![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Auth%20Tokens-000000?logo=jsonwebtokens&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-API%20Docs-85EA2D?logo=swagger&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-Testing-FF6C37?logo=postman&logoColor=white)
 
-Below is an overview of the available endpoints and their functionalities.
+## 📖 Overview
 
-- To explore the Swagger UI schema and view available endpoints, navigate to http://localhost:3000/api-docs after running the server.
-- You can also test these endpoints via this [Postman](https://martian-meteor-939359.postman.co/workspace/alitalhacoban-public-workspace~6633d43a-18bb-4f4d-84e1-94a76d318225/collection/18754010-93d1eb51-323f-4bdf-94ae-97623518517c?action=share&creator=18754010&active-environment=18754010-aa866eb4-8070-4788-a35f-9e6945d54ce3) collection
-<br>
+ **Node MySQL Social App** is a **RESTful API** for a social media platform built using **Node.js** and **MySQL**.  
+It supports user authentication with **JWT** and provides core social media functionalities:  
 
-![auth](https://github.com/user-attachments/assets/b808c577-f563-402d-b2a7-b02858a6155d)
-![comments](https://github.com/user-attachments/assets/598c5cb1-c586-43bb-8278-b84b9322d9fb)
-![likes](https://github.com/user-attachments/assets/bb24ee60-0416-44d9-8f34-faf026a10b7e)
-![posts](https://github.com/user-attachments/assets/4dc29db5-f41f-4edd-b7e2-119712f6f391)
-![relationships](https://github.com/user-attachments/assets/4ceb445d-1419-4964-b868-06f19b4ca5df)
-![stories](https://github.com/user-attachments/assets/814a9c62-c56a-41d8-b802-952acffd742a)
-![users](https://github.com/user-attachments/assets/d25eea1e-08ea-4f45-991a-d7b813212f55)
+- 👤 User management  
+- 📝 Posting system  
+- 💬 Comments  
+- ❤️ Likes  
+- 🔗 Followers (Relationships)  
+- 📖 Stories  
+
+ The project follows an **MVC architecture** with organized routes, controllers, and configs.  
+ API documentation is available via **Swagger**.
+
+## 🚀 Endpoints
+
+- **Swagger UI**: `http://localhost:3000/api-docs`  
+- **Postman Collection**: [Here](https://martian-meteor-939359.postman.co/workspace/alitalhacoban-public-workspace~6633d43a-18bb-4f4d-84e1-94a76d318225/collection/18754010-93d1eb51-323f-4bdf-94ae-97623518517c?action=share&creator=18754010&active-environment=18754010-aa866eb4-8070-4788-a35f-9e6945d54ce3)  
+
+### Screenshots  
+![auth](https://github.com/user-attachments/assets/b808c577-f563-402d-b2a7-b02858a6155d)  
+![comments](https://github.com/user-attachments/assets/598c5cb1-c586-43bb-8278-b84b9322d9fb)  
+![likes](https://github.com/user-attachments/assets/bb24ee60-0416-44d9-8f34-faf026a10b7e)  
+![posts](https://github.com/user-attachments/assets/4dc29db5-f41f-4edd-b7e2-119712f6f391)  
+![relationships](https://github.com/user-attachments/assets/4ceb445d-1419-4964-b868-06f19b4ca5df)  
+![stories](https://github.com/user-attachments/assets/814a9c62-c56a-41d8-b802-952acffd742a)  
+![users](https://github.com/user-attachments/assets/d25eea1e-08ea-4f45-991a-d7b813212f55)  
 
 
-## Key Features
 
- This project implements the following key features to ensure a robust, secure, and scalable web application:
+## 🔑 Key Features
 
-- `CRUD Operation`: Full implementation of Create, Read, Update, and Delete functionalities for users, posts, stories and interactions.
-- `JWT-Based Authentication:` Secure user authentication using JSON Web Tokens (JWT) to manage user sessions.
-- `Password Hashing`: Secure password storage with hashing using the `bcryptjs` package.
-- `Server-Side Validation`: Input validation using the `express-validator` package to ensure data integrity and security.
-- `Pagination`: Implemented pagination for efficient result retrieval in larger datasets.
-- `API Documentation`: Integrated `Swagger` for easy and structured API documentation, improving developer experience and collaboration.
+✔ **CRUD Operations** for users, posts, stories, and interactions  
+✔ **JWT Authentication** – secure login & session handling  
+✔ **Password Hashing** with `bcryptjs`  
+✔ **Server-Side Validation** using `express-validator`  
+✔ **Pagination** for large datasets  
+✔ **Swagger API Documentation** for collaboration & developer experience 
 
 
- ## Installation
+## ⚙️ Installation
+
   1. Clone the repository
   
   ```bash
@@ -84,12 +101,6 @@ npm run dev
 2. The application will be running on  `http://localhost:3000`
 
 <br>
-
-
-
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or suggestions.
-
 
 ## License
 This project is licensed under the MIT License.
