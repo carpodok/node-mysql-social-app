@@ -87,7 +87,7 @@ DB_NAME="your-db-name"
 
 ## Running the Application
 
-1. To start the server, run the following command on the root of the project path;
+To start the server, run the following command on the root of the project path;
 
 ```
 npm start
@@ -98,7 +98,7 @@ For the development purpose;
 npm run dev
 ```
 
-2. The application will be running on  `http://localhost:3000`
+👉 The application will be running on  `http://localhost:3000`
 
 <br>
 
